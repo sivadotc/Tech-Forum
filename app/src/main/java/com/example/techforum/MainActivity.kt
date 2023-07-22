@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.techforum.auth.LoginScreen
 import com.example.techforum.auth.SignupScreen
+import com.example.techforum.main.FeedScreen
 import com.example.techforum.main.NotificationMessage
 import com.example.techforum.ui.theme.TechForumTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -41,6 +42,7 @@ class MainActivity : ComponentActivity() {
 sealed class DestinationScreen(val route: String) {
     object Signup: DestinationScreen("signup")
     object Login: DestinationScreen("login")
+    object Feed: DestinationScreen("feed")
 }
 
 @Composable
@@ -56,6 +58,9 @@ fun TechForumApp(){
         }
         composable(DestinationScreen.Login.route) {
             LoginScreen(navController = navController, vm = vm)
+        }
+        composable(DestinationScreen.Feed.route) {
+            FeedScreen(navController = navController, vm = vm)
         }
     }
 }

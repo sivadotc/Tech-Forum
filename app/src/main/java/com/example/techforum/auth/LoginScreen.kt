@@ -27,10 +27,13 @@ import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.main.navigateTo
 import com.example.techforum.R
+import com.example.techforum.main.CheckSignedIn
 import com.example.techforum.main.CommonProgressSpinner
 
 @Composable
 fun LoginScreen(navController: NavController, vm: TfViewModel) {
+
+    CheckSignedIn(vm = vm, navController = navController)
 
     val focus = LocalFocusManager.current
 
