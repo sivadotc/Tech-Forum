@@ -75,7 +75,7 @@ class TfViewModel @Inject constructor(
                     signedIn.value = true
                     inProgress.value = false
                     auth.currentUser?.uid?.let { uid ->
-                        handleException(customMessage = "Login Success")
+                        //handleException(customMessage = "Login Success")
                         getUserData(uid)
                     }
                 } else {

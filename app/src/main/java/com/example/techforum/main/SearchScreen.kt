@@ -9,14 +9,15 @@ import androidx.navigation.NavController
 import com.example.techforum.TfViewModel
 
 @Composable
-fun FeedScreen(navController: NavController, vm: TfViewModel) {
+fun SearchScreen(navController: NavController, vm: TfViewModel) {
     Column(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.weight(1f)) {
-            Text(text = "Feed Screen")
+            Text(text = "Search Screen")
         }
         BottomNavigationMenu(
-            selectedItem = BottomNavigationItem.FEED,
+            selectedItem = BottomNavigationItem.SEARCH,
             navController = navController
         )
     }
+
 }
