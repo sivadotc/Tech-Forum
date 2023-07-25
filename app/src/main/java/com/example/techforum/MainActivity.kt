@@ -15,11 +15,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.techforum.auth.LoginScreen
+import com.example.techforum.auth.ProfileScreen
 import com.example.techforum.auth.SignupScreen
-import com.example.techforum.main.FeedScreen
-import com.example.techforum.main.MyPostsScreen
-import com.example.techforum.main.NotificationMessage
-import com.example.techforum.main.SearchScreen
+import com.example.techforum.main.*
 import com.example.techforum.ui.theme.TechForumTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -47,6 +45,10 @@ sealed class DestinationScreen(val route: String) {
     object Feed: DestinationScreen("feed")
     object Search: DestinationScreen("search")
     object MyPosts: DestinationScreen("myposts")
+    object Profile: DestinationScreen("profile")
+    object NewPost: DestinationScreen("newpost/{imageUri}") {
+        fun createRoute(uri: String) = "newpost/$uri"
+    }
 }
 
 @Composable
@@ -71,6 +73,15 @@ fun TechForumApp(){
         }
         composable(DestinationScreen.MyPosts.route) {
             MyPostsScreen(navController = navController, vm = vm)
+        }
+        composable(DestinationScreen.Profile.route) {
+            ProfileScreen(navController = navController, vm = vm)
+        }
+        composable(DestinationScreen.NewPost.route) { navBackStachEntry ->
+            val imageUri = navBackStachEntry.arguments?.getString("imageUri")
+            imageUri?.let { 
+                NewPostScreen(navController = navController, vm = vm, encodedUri = it)
+            }
         }
     }
 }

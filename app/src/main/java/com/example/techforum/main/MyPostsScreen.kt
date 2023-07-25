@@ -1,5 +1,8 @@
 package com.example.techforum.main
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,11 +23,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.R
 
 @Composable
 fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
+
+    val newPostImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ){ uri ->
+        uri?.let {
+            val encoded = Uri.encode(it.toString())
+            val route = DestinationScreen.NewPost.createRoute(encoded)
+            navController.navigate(route)
+        }
+
+    }
 
     val userData = vm.userData.value
     val isLoading = vm.inProgress
@@ -33,7 +48,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
         Column(modifier = Modifier.weight(1f)) {
             Row {
                 ProfileImage(userData?.imageUrl) {
-                    
+                    newPostImageLauncher.launch("image/*")
                 }
                 Text(
                     text = "15\nPosts",
@@ -63,7 +78,8 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 Text(text = usernameDisplay)
                 Text(text = userData?.bio ?: "")
             }
-            OutlinedButton(onClick = { },
+            OutlinedButton(
+                onClick = { navigateTo(navController, DestinationScreen.Profile) },
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
