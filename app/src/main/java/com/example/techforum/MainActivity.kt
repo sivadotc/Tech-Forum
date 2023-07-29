@@ -17,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.techforum.auth.LoginScreen
 import com.example.techforum.auth.ProfileScreen
 import com.example.techforum.auth.SignupScreen
+import com.example.techforum.data.PostData
 import com.example.techforum.main.*
 import com.example.techforum.ui.theme.TechForumTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +50,7 @@ sealed class DestinationScreen(val route: String) {
     object NewPost: DestinationScreen("newpost/{imageUri}") {
         fun createRoute(uri: String) = "newpost/$uri"
     }
+    object SinglePost: DestinationScreen("singlepost")
 }
 
 @Composable
@@ -82,6 +84,10 @@ fun TechForumApp(){
             imageUri?.let { 
                 NewPostScreen(navController = navController, vm = vm, encodedUri = it)
             }
+        }
+        composable(DestinationScreen.SinglePost.route) {
+            val postData = navController.previousBackStackEntry?.arguments?.getParcelable<PostData>("post")
+            postData?.let { SinglePostScreen(navController = navController, vm = vm, post = postData) }
         }
     }
 }

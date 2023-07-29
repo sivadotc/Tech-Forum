@@ -124,8 +124,12 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 postsLoading = postsLoading,
                 posts = posts,
                 modifier = Modifier.weight(1f).padding(1.dp).fillMaxSize(),
-            ) {
-                // on post click
+            ) { post ->
+                navigateTo(
+                    navController = navController,
+                    DestinationScreen.SinglePost,
+                    NavParam("post", post)
+                )
             }
 
         }
