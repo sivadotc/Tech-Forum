@@ -36,6 +36,9 @@ class TfViewModel @Inject constructor(
     val refreshPostsProgress = mutableStateOf(false)
     val posts = mutableStateOf<List<PostData>>(listOf())
 
+    val searchedPosts = mutableStateOf<List<PostData>>(listOf())
+    val searchedPostsProgress = mutableStateOf(false)
+
     init {
        // auth.signOut()
         val currentUser = auth.currentUser
@@ -223,6 +226,7 @@ class TfViewModel @Inject constructor(
         signedIn.value = false
         userData.value = null
         popupNotification.value = Event("Logged out")
+        searchedPosts.value = listOf()
     }
 
     fun onNewPost(uri: Uri, description: String, onPostSuccess: () -> Unit) {
@@ -240,6 +244,12 @@ class TfViewModel @Inject constructor(
         if (currentUid != null) {
             val postUuid = UUID.randomUUID().toString()
 
+            val fillerWords = listOf("the","be","to","this","of","and","or","a", "in", "it")
+            val searchTerms = description
+                .split(" ", ".", ",", "?", "!", "#")
+                .map { it.lowercase() }
+                .filter { it.isNotEmpty() and !fillerWords.contains(it) }
+
             val post = PostData(
                 postId = postUuid,
                 userId = currentUid,
@@ -248,7 +258,8 @@ class TfViewModel @Inject constructor(
                 postImage = imageUri.toString(),
                 postDescription = description,
                 time = System.currentTimeMillis(),
-                likes = listOf<String>()
+                likes = listOf<String>(),
+                searchTerms = searchTerms
             )
 
             db.collection(POSTS).document(postUuid).set(post)
@@ -297,6 +308,42 @@ class TfViewModel @Inject constructor(
         }
         val sortedPosts = newPosts.sortedByDescending { it.time }
         outState.value = sortedPosts
+    }
+
+    fun searchPosts(searchTerm: String) {
+        if (searchTerm.isNotEmpty()) {
+            searchedPostsProgress.value = true
+            db.collection(POSTS)
+                .whereArrayContains("searchTerms", searchTerm.trim().lowercase())
+                .get()
+                .addOnSuccessListener {
+                    convertPosts(it, searchedPosts)
+                    searchedPostsProgress.value = false
+                }
+                .addOnFailureListener { exc ->
+                    handleException(exc, "Cannot search posts")
+                    searchedPostsProgress.value = false
+
+                }
+        }
+    }
+
+    fun onFollowClick(userId: String) {
+        auth.currentUser?.uid?.let { currentUser ->
+            val following = arrayListOf<String>()
+            userData.value?.following?.let {
+                following.addAll(it)
+            }
+            if (following.contains(userId)) {
+                following.remove(userId)
+            } else {
+                following.add(userId)
+            }
+            db.collection(USERS).document(currentUser).update("following", following)
+                .addOnSuccessListener {
+                    getUserData(currentUser)
+                }
+        }
     }
 }
 

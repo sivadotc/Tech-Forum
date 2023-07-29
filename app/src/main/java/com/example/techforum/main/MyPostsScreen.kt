@@ -184,7 +184,7 @@ fun PostList(
         CommonProgressSpinner()
     } else if (posts.isEmpty()) {
         Column(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

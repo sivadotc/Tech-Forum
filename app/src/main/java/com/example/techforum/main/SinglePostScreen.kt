@@ -67,15 +67,23 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
             
             if (userData?.userId == post.userId) {
                 //Current user's post. don't show anything
+            } else if (userData?.following?.contains(post.userId) == true) {
+                Text(
+                    text = "Following",
+                    color = Color.Gray,
+                    modifier = Modifier.clickable { vm.onFollowClick(post.userId!!) }
+                )
             } else {
-                Text(text = "Follow", color = Color.Blue, modifier = Modifier.clickable {
-                    //Follow a user
-                })
+                Text(
+                    text = "Follow",
+                    color = Color.Blue,
+                    modifier = Modifier.clickable { vm.onFollowClick(post.userId!!) }
+                )
             }
         }
 
-
     }
+
     Box {
         val modifier = Modifier
             .fillMaxWidth()
