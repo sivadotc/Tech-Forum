@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.example.techforum.data.CommentData
 import com.example.techforum.data.Event
 import com.example.techforum.data.PostData
 import com.example.techforum.data.UserData
@@ -14,12 +15,12 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.handleCoroutineException
 import java.util.UUID
 import javax.inject.Inject
 
 const val USERS = "users"
 const val POSTS = "posts"
+const val COMMENTS = "comments"
 
 @HiltViewModel
 class TfViewModel @Inject constructor(
@@ -42,8 +43,12 @@ class TfViewModel @Inject constructor(
     val postsFeed = mutableStateOf<List<PostData>>(listOf())
     val postsFeedProgress = mutableStateOf(false)
 
+    val comments = mutableStateOf<List<CommentData>>(listOf())
+    val commentsProgress = mutableStateOf(false)
+
+    val followers = mutableStateOf(0)
+
     init {
-       // auth.signOut()
         val currentUser = auth.currentUser
         signedIn.value = currentUser != null
         currentUser?.uid?.let { uid ->
@@ -155,6 +160,7 @@ class TfViewModel @Inject constructor(
                 inProgress.value = false
                 refreshPosts()
                 getPersonalizedFeed()
+                getFollowers(user?.userId)
             }
             .addOnFailureListener { exc ->
                 handleException(exc, "Cannot retrieve user data")
@@ -232,6 +238,7 @@ class TfViewModel @Inject constructor(
         popupNotification.value = Event("Logged out")
         searchedPosts.value = listOf()
         postsFeed.value = listOf()
+        comments.value = listOf()
     }
 
     fun onNewPost(uri: Uri, description: String, onPostSuccess: () -> Unit) {
@@ -377,7 +384,7 @@ class TfViewModel @Inject constructor(
     private fun getGeneralFeed() {
         postsFeedProgress.value = true
         val currentTime = System.currentTimeMillis()
-        val difference = 24 * 60 * 60* 1000 //1 day in millis
+        val difference = 120 * 24 * 60 * 60* 1000 //4 months in millis
         db.collection(POSTS)
             .whereGreaterThan("time", currentTime - difference)
             .get()
@@ -388,6 +395,83 @@ class TfViewModel @Inject constructor(
             .addOnFailureListener { exc ->
                 handleException(exc, "Cannot get feed")
                 postsFeedProgress.value = false
+            }
+    }
+
+    // Like functionality
+  /* fun onLikePost(postData: PostData) {
+        auth.currentUser?.uid?.let { userId ->
+            postData.likes?.let { likes ->
+                val newLikes = arrayListOf<String>()
+                if (likes.contains(userId)) {
+                    newLikes.addAll(likes.filter { userId != it })
+                } else {
+                    newLikes.addAll(likes)
+                    newLikes.add(userId)
+                }
+
+                postData.postId?.let { postId ->
+                    db.collection(POSTS).document(postId).update("likes", newLikes)
+                        .addOnSuccessListener {
+                            postData.likes = newLikes
+                        }
+                        .addOnFailureListener {
+                            handleException(it, "Unable to like post")
+                        }
+                }
+            }
+
+
+        }
+    }
+
+   */
+
+
+    fun createComment(postId: String, text: String) {
+        userData.value?.username?.let { username ->
+            val commentId = UUID.randomUUID().toString()
+            val comment = CommentData(
+                commentId = commentId,
+                postId = postId,
+                username = username,
+                text = text,
+                timestamp = System.currentTimeMillis()
+            )
+            db.collection(COMMENTS).document(commentId).set(comment)
+                .addOnSuccessListener {
+                    getComments(postId)
+                }
+                .addOnFailureListener { exc ->
+                    handleException(exc, "Cannot create comment")
+                }
+        }
+    }
+
+    fun getComments(postId: String?) {
+        commentsProgress.value = true
+        db.collection(COMMENTS).whereEqualTo("postId", postId).get()
+            .addOnSuccessListener { documents ->
+                val newComments = mutableListOf<CommentData>()
+                documents.forEach { doc ->
+                    val comment = doc.toObject<CommentData>()
+                    newComments.add(comment)
+                }
+                val sortedComments = newComments.sortedBy { it.timestamp }
+                comments.value = sortedComments
+                commentsProgress.value = false
+
+            }
+            .addOnFailureListener { exc ->
+                handleException(exc, "Cannot retrieve comments")
+                commentsProgress.value = false
+            }
+    }
+
+    private fun getFollowers(uid: String?) {
+        db.collection(USERS).whereArrayContains("following", uid ?: "").get()
+            .addOnSuccessListener { documents ->
+                followers.value = documents.size()
             }
     }
 }

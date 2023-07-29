@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,12 +18,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
+import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
 
 
 @Composable
 fun SinglePostScreen(navController: NavController, vm: TfViewModel, post: PostData) {
+
+    val comments = vm.comments.value
+
+    LaunchedEffect(key1 = Unit) {
+        vm.getComments(post.postId)
+    }
+
     post.userId?.let { 
         Column(
             modifier = androidx.compose.ui.Modifier
@@ -34,14 +43,18 @@ fun SinglePostScreen(navController: NavController, vm: TfViewModel, post: PostDa
 
             CommonDivider()
 
-            SinglePostDisplay(navController = navController, vm = vm, post = post)
+            SinglePostDisplay(
+                navController = navController,
+                vm = vm, post = post,
+                nbComments = comments.size
+            )
 
         }
     }
 }
 
 @Composable
-fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostData) {
+fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostData, nbComments: Int) {
     val userData = vm.userData.value
     Box(
         modifier = Modifier
@@ -94,8 +107,10 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
             contentScale = ContentScale.FillWidth
         )
     }
-    
-    Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
+
+    // Like feature to implement in future updates
+
+   /* Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
         Image(
             painter = painterResource(id = com.example.techforum.R.drawable.ic_like),
             contentDescription = null,
@@ -104,11 +119,23 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
         )
         Text(text = " ${post.likes?.size ?: 0} likes", modifier = Modifier.padding(start = 0.dp))
     }
+    */
+
     Row(modifier = Modifier.padding(8.dp)) {
         Text(text = post.username ?: "", fontWeight = FontWeight.Bold)
         Text(text = post.postDescription ?: "", modifier = Modifier.padding(start = 8.dp))
     }
     Row(modifier = Modifier.padding(8.dp)) {
-        Text(text = "10 comments", color = Color.Gray, modifier = Modifier.padding(8.dp))
+        Text(
+            text = "$nbComments comments",
+            color = Color.Gray,
+            modifier = Modifier
+                .padding(8.dp)
+                .clickable {
+                    post.postId?.let {
+                        navController.navigate(DestinationScreen.CommentsScreen.createRoute(it))
+                    }
+                }
+        )
     }
 }

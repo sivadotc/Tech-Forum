@@ -70,6 +70,8 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
     val postsLoading = vm.refreshPostsProgress.value
     val posts = vm.posts.value
 
+    val followers = vm.followers.value
+
     Column() {
         Column(modifier = Modifier.weight(1f)) {
             Row {
@@ -77,21 +79,21 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                     newPostImageLauncher.launch("image/*")
                 }
                 Text(
-                    text = "15\nPosts",
+                    text = "${posts.size}\nPosts", fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "45\nFollowers",
+                    text = "$followers\nFollowers", fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "93\nFollowing",
+                    text = "${userData?.following?.size ?: 0}\nFollowing", fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
