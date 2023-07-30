@@ -2,9 +2,12 @@ package com.example.techforum.main
 
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -15,10 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.techforum.DestinationScreen
+import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.CommentData
 import org.w3c.dom.Comment
@@ -32,9 +36,9 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
 
     val comments = vm.comments.value
     val commentsProgress = vm.commentsProgress.value
-    
+
     Column(modifier = Modifier.fillMaxSize()) {
-        
+
         if (commentsProgress) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
@@ -60,15 +64,18 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
         }
 
 
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
             TextField(
                 value = commentText,
                 onValueChange = { commentText = it },
                 modifier = Modifier
                     .weight(1f)
-                    .border(1.dp, Color.LightGray),
+                    .border(1.dp, color = Color.LightGray, CircleShape),
+                shape = CircleShape,
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
@@ -76,7 +83,17 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                     disabledIndicatorColor = Color.Transparent
                 )
             )
-            Button(onClick = {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_send),
+                contentDescription = null,
+                modifier = Modifier.padding(8.dp).size(40.dp).clickable {
+                    vm.createComment(postId = postId, text = commentText)
+                    commentText = ""
+                    focusManager.clearFocus()
+                }, tint = Color.Green
+            )
+
+            /*Button(onClick = {
                 vm.createComment(postId = postId, text = commentText)
                 commentText = ""
                 focusManager.clearFocus()
@@ -84,19 +101,20 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                 modifier = Modifier.padding(start = 8.dp)
             ) {
                 Text(text = "Comment")
-            }
+            }*/
+        }
         }
     }
-}
 
-@Composable
-fun CommentRow(comment: CommentData) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-    ) {
-        Text(text = comment.username ?: "", fontWeight = FontWeight.Bold)
-        Text(text = comment.text ?: "", modifier = Modifier.padding(start = 8.dp))
+    @Composable
+    fun CommentRow(comment: CommentData) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+        ) {
+            Text(text = comment.username ?: "", fontWeight = FontWeight.Bold)
+            Text(text = comment.text ?: "", modifier = Modifier.padding(start = 8.dp))
+        }
     }
-}
+

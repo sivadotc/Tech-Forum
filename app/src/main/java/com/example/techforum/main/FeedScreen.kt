@@ -1,5 +1,6 @@
 package com.example.techforum.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -19,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.techforum.DestinationScreen
+import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
 import kotlinx.coroutines.CoroutineScope
@@ -38,17 +41,15 @@ fun FeedScreen(navController: NavController, vm: TfViewModel) {
     
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .background(Color.LightGray)
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+            //.background(Color.LightGray)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(Color.White)
-        ) {
-            UserImageCard(userImage = userData?.imageUrl)
-        }
+        Image(
+            painter = painterResource(id = R.drawable.techforumlogo),
+            contentDescription = null,
+            modifier = Modifier.fillMaxWidth().size(60.dp)
+        )
         PostsList(
             posts = personalizedFeed,
             modifier = Modifier.weight(1f),
@@ -91,8 +92,8 @@ fun PostsList(
 @Composable
 fun Post(post: PostData, currentUserId: String, vm: TfViewModel, onPostClick: () -> Unit) {
 
-    val likeAnimation = remember { mutableStateOf(false) }
-    val dislikeAnimation = remember { mutableStateOf(false) }
+    //val likeAnimation = remember { mutableStateOf(false) }
+    //val dislikeAnimation = remember { mutableStateOf(false) }
 
     Card(
         shape = RoundedCornerShape(corner = CornerSize(4.dp)),

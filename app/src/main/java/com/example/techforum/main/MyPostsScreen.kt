@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.techforum.ui.theme.Typography
 import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.R
@@ -79,21 +80,21 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                     newPostImageLauncher.launch("image/*")
                 }
                 Text(
-                    text = "${posts.size}\nPosts", fontWeight = FontWeight.Bold,
+                    text = "${posts.size}\nPosts", style = Typography.body1, fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "$followers\nFollowers", fontWeight = FontWeight.Bold,
+                    text = "$followers\nFollowers", style = Typography.body1, fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "${userData?.following?.size ?: 0}\nFollowing", fontWeight = FontWeight.Bold,
+                    text = "${userData?.following?.size ?: 0}\nFollowing", style = Typography.body1, fontWeight = FontWeight.Bold,
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
@@ -101,9 +102,14 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 )
             }
             Column(modifier = Modifier.padding(8.dp)) {
-                val usernameDisplay = if (userData?.username == null) "" else "@${userData?.username}"
-                Text(text = userData?.name ?: "", fontWeight = FontWeight.Bold)
-                Text(text = usernameDisplay)
+                val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
+                Text(text = userData?.name ?: "", style = Typography.body1, fontWeight = FontWeight.Bold)
+                Text(
+                    text = usernameDisplay,
+                    Modifier
+                        .background(color = Color.Gray, shape = RoundedCornerShape(10.dp))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
                 Text(text = userData?.bio ?: "")
             }
             OutlinedButton(
@@ -119,7 +125,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 ),
                 shape = RoundedCornerShape(10)
             ) {
-                Text(text = "Edit Profile")
+                Text(text = "Edit Profile", style = Typography.body1, fontWeight = FontWeight.Bold)
             }
             PostList(
                 isContextLoading = isLoading,
@@ -156,7 +162,7 @@ fun ProfileImage(imageUrl: String?, onClick: () -> Unit) {
             )
             Card(
                 shape = CircleShape,
-                border = BorderStroke(2.dp, color = Color.White),
+                border = BorderStroke(2.dp, color = Color.Gray),
                 modifier = Modifier
                     .size(32.dp)
                     .align(Alignment.BottomEnd)
@@ -165,7 +171,7 @@ fun ProfileImage(imageUrl: String?, onClick: () -> Unit) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_add),
                     contentDescription = null,
-                    modifier = Modifier.background(Color.Blue)
+                    //modifier = Modifier.background(Color.Blue)
                 )
             }
 
@@ -190,7 +196,7 @@ fun PostList(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (!isContextLoading) Text(text = "No posts available")
+            if (!isContextLoading) Text(text = "No posts available",  style = Typography.body1,)
         }
     } else {
         LazyColumn(modifier = modifier) {

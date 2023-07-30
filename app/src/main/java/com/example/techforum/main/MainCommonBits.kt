@@ -111,7 +111,7 @@ fun UserImageCard(
     Card(shape = CircleShape, modifier = modifier) {
         if (userImage.isNullOrEmpty()) {
             Image(
-                painter = painterResource(id = com.example.techforum.R.drawable.ic_user),
+                painter = painterResource(id = R.drawable.ic_person),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(Color.Gray)
             )
@@ -132,7 +132,7 @@ fun CommonDivider() {
     )
 }
 
-private enum class LikeIconSize {
+/*private enum class LikeIconSize {
     SMALL,
     LARGE
 }
@@ -163,20 +163,4 @@ fun LikeAnimation(like: Boolean = true) {
         colorFilter = ColorFilter.tint(if (like) Color.Red else Color.Gray)
     )
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}*/
