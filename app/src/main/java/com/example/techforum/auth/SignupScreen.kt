@@ -7,6 +7,7 @@ import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -72,7 +73,14 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 value = usernameState.value,
                 onValueChange = { usernameState.value = it },
                 modifier = Modifier.padding(8.dp),
-                label = { Text(text = "Username") }
+                label = { Text(text = "Username", style = Typography.body1) },
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_person),
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = null
+                    )
+                }
             )
             OutlinedTextField(
                 value = emailState.value,
@@ -87,7 +95,14 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
 
                         }
                     },
-                label = { Text(text = "Email") },
+                label = { Text(text = "Email", style = Typography.body1) },
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_mail),
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = null
+                    )
+                },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = { focus.clearFocus() }
@@ -106,7 +121,14 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
 
                         }
                     },
-                label = { Text(text = "Password") },
+                label = { Text(text = "Password", style = Typography.body1) },
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_lock),
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = null
+                    )
+                },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
@@ -124,10 +146,10 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 },
                 modifier = Modifier.padding(8.dp)
             ) {
-                Text(text = "SIGN UP")
+                Text(text = "SIGN UP", style = Typography.body2)
             }
             Text(
-                text = "Already a user? Go to Login ->",
+                text = "Already a user? Go to Login ->", style = Typography.body2,
                 color = Color.Blue,
                 modifier = Modifier
                     .padding(8.dp).bringIntoViewRequester(bringIntViewRequester)

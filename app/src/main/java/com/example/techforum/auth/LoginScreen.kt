@@ -6,10 +6,9 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -59,27 +58,32 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
             val emailState = remember { mutableStateOf(TextFieldValue()) }
             val passState = remember { mutableStateOf(TextFieldValue()) }
 
-            Image(
-                painter = painterResource(id = R.drawable.techforumlogo),
-                contentDescription = null,
-                modifier = Modifier
-                    .width(250.dp)
-                    .padding(top = 16.dp)
-                    .padding(8.dp)
+            Text(
+                text = "Tech Forum.",
+                style = Typography.h1,
+                modifier = Modifier.padding(top = 16.dp, bottom = 46.dp),
+                fontSize = 35.sp
             )
             LottieAnimation(aniUrl = "https://lottie.host/5fd63085-d089-4046-b251-442988b1ed0e/qNTiUbxGiP.lottie")
             Text(
                 text = "Login",
                 style = Typography.h1,
-                modifier = Modifier.padding(8.dp),
+                modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
                 fontSize = 30.sp,
-                fontFamily = FontFamily.SansSerif
             )
             OutlinedTextField(
                 value = emailState.value,
                 onValueChange = { emailState.value = it },
                 modifier = Modifier.padding(8.dp),
-                label = { Text(text = "Email") }
+                label = { Text(text = "Email", style = Typography.body1) },
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_mail),
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = null
+                    )
+                }
+
             )
             OutlinedTextField(
                 value = passState.value,
@@ -94,7 +98,14 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
 
                         }
                     },
-                label = { Text(text = "Password") },
+                label = { Text(text = "Password", style = Typography.body1) },
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.ic_lock),
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = null
+                    )
+                },
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
@@ -108,13 +119,14 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                 },
                 modifier = Modifier.padding(8.dp)
             ) {
-                Text(text = "LOGIN")
+                Text(text = "LOGIN", style = Typography.body2)
             }
             Text(
-                text = "New here? Got to Signup ->",
+                text = "New here? Got to Signup ->", style = Typography.body2,
                 color = Color.Blue,
                 modifier = Modifier
-                    .padding(8.dp).bringIntoViewRequester(bringIntViewRequester)
+                    .padding(8.dp)
+                    .bringIntoViewRequester(bringIntViewRequester)
                     .clickable {
                         navigateTo(navController, DestinationScreen.Signup)
                     }
