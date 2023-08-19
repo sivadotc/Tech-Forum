@@ -1,5 +1,6 @@
 package com.example.techforum
 
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -10,6 +11,7 @@ import com.google.firebase.storage.ktx.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.components.ViewModelComponent
 
 @Module
@@ -25,3 +27,4 @@ class HiltModule {
     @Provides
     fun provideStorage(): FirebaseStorage = Firebase.storage
 }
+
