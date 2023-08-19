@@ -34,6 +34,7 @@ import com.example.techforum.main.navigateTo
 import com.example.techforum.R
 import com.example.techforum.main.CheckSignedIn
 import com.example.techforum.main.CommonProgressSpinner
+import com.example.techforum.ui.theme.Typography
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -69,6 +70,7 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
             LottieAnimation(aniUrl = "https://lottie.host/5fd63085-d089-4046-b251-442988b1ed0e/qNTiUbxGiP.lottie")
             Text(
                 text = "Login",
+                style = Typography.h1,
                 modifier = Modifier.padding(8.dp),
                 fontSize = 30.sp,
                 fontFamily = FontFamily.SansSerif
