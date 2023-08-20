@@ -81,6 +81,7 @@ fun ProfileContent(
             .verticalScroll(scrollState)
             .padding(8.dp)
     ) {
+        Spacer(modifier = Modifier.height(30.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()

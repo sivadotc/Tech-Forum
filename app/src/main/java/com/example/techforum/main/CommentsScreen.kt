@@ -25,6 +25,7 @@ import androidx.navigation.NavController
 import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.CommentData
+import com.example.techforum.ui.theme.Blue
 import org.w3c.dom.Comment
 
 
@@ -38,6 +39,7 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
     val commentsProgress = vm.commentsProgress.value
 
     Column(modifier = Modifier.fillMaxSize()) {
+        Spacer(modifier = Modifier.height(30.dp))
 
         if (commentsProgress) {
             Column(
@@ -90,7 +92,7 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                     vm.createComment(postId = postId, text = commentText)
                     commentText = ""
                     focusManager.clearFocus()
-                }, tint = Color.Green
+                }, tint = Blue
             )
 
             /*Button(onClick = {

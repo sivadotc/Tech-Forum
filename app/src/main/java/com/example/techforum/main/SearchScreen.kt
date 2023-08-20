@@ -31,7 +31,10 @@ fun SearchScreen(navController: NavController, vm: TfViewModel) {
     val searchedPosts = vm.searchedPosts.value
     var searchTerms by rememberSaveable { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxHeight(), verticalArrangement = Arrangement.SpaceBetween) {
+    Column(
+        modifier = Modifier.fillMaxHeight(),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
         SearchBar(
             searchTerm = searchTerms,
             onSearchChange = { searchTerms = it },
@@ -63,40 +66,43 @@ fun SearchScreen(navController: NavController, vm: TfViewModel) {
 @Composable
 fun SearchBar(searchTerm: String, onSearchChange: (String) -> Unit, onSearch: () -> Unit) {
     val focusManager = LocalFocusManager.current
-    
-    TextField(
-        value = searchTerm,
-        onValueChange = onSearchChange,
-        modifier = Modifier
-            .padding(8.dp)
-            .fillMaxWidth()
-            .border(1.dp, color = Color.LightGray, CircleShape),
-        shape = CircleShape,
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
-            imeAction = ImeAction.Search
-        ),
-        keyboardActions = KeyboardActions(
-            onSearch = {
-                onSearch()
-                focusManager.clearFocus()
+
+    Column() {
+        Spacer(modifier = Modifier.height(40.dp))
+        TextField(
+            value = searchTerm,
+            onValueChange = onSearchChange,
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth()
+                .border(1.dp, color = Color.LightGray, CircleShape),
+            shape = CircleShape,
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Text,
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onSearch()
+                    focusManager.clearFocus()
+                }
+            ),
+            maxLines = 1,
+            singleLine = true,
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent
+            ),
+            trailingIcon = {
+                IconButton(onClick = {
+                    onSearch()
+                    focusManager.clearFocus()
+                }) {
+                    Icon(imageVector = Icons.Filled.Search, contentDescription = null)
+                }
             }
-        ),
-        maxLines = 1,
-        singleLine = true,
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            disabledIndicatorColor = Color.Transparent
-        ),
-        trailingIcon = {
-            IconButton(onClick = {
-                onSearch()
-                focusManager.clearFocus()
-            }) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = null)
-            }
-        }
-    )
+        )
+    }
 }

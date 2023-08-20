@@ -45,10 +45,13 @@ fun FeedScreen(navController: NavController, vm: TfViewModel) {
         horizontalAlignment = Alignment.CenterHorizontally
             //.background(Color.LightGray)
     ) {
+        Spacer(modifier = Modifier.height(30.dp))
         Image(
             painter = painterResource(id = R.drawable.techforumlogo),
             contentDescription = null,
-            modifier = Modifier.fillMaxWidth().size(60.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .size(60.dp)
         )
         PostsList(
             posts = personalizedFeed,

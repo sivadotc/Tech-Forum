@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.techforum.DestinationScreen
 import com.example.techforum.R
+import com.example.techforum.ui.theme.Blue
 
 enum class BottomNavigationItem(val icon: Int, val navDestination: DestinationScreen) {
     FEED(R.drawable.ic_home, DestinationScreen.Feed),
@@ -40,7 +41,7 @@ fun BottomNavigationMenu(selectedItem: BottomNavigationItem, navController: NavC
                    .clickable {
                        navigateTo(navController, item.navDestination)
                    },
-               colorFilter = if (item == selectedItem) ColorFilter.tint(Color.Green)
+               colorFilter = if (item == selectedItem) ColorFilter.tint(Blue)
                else ColorFilter.tint(Color.Gray)
            )
        }

@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.techforum.ui.theme.Typography
 import com.example.techforum.DestinationScreen
+import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
 import com.example.techforum.R
 import com.example.techforum.data.PostData
@@ -74,6 +75,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
     val followers = vm.followers.value
 
     Column() {
+        Spacer(modifier = Modifier.height(30.dp))
         Column(modifier = Modifier.weight(1f)) {
             Row {
                 ProfileImage(userData?.imageUrl) {
@@ -131,7 +133,10 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 isContextLoading = isLoading,
                 postsLoading = postsLoading,
                 posts = posts,
-                modifier = Modifier.weight(1f).padding(1.dp).fillMaxSize(),
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(1.dp)
+                    .fillMaxSize(),
             ) { post ->
                 navigateTo(
                     navController = navController,
@@ -196,7 +201,9 @@ fun PostList(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            if (!isContextLoading) Text(text = "No posts available",  style = Typography.body1,)
+            if (!isContextLoading) {
+                Text(text = "No posts available",  style = Typography.body1,)
+            }
         }
     } else {
         LazyColumn(modifier = modifier) {

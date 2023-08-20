@@ -40,6 +40,7 @@ fun SinglePostScreen(navController: NavController, vm: TfViewModel, post: PostDa
                 .wrapContentHeight()
                 .padding(8.dp)
         ) {
+            Spacer(modifier = Modifier.height(30.dp))
             Text(text = "Back", modifier = Modifier.clickable { navController.popBackStack() })
 
             CommonDivider()

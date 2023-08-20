@@ -35,7 +35,9 @@ fun NewPostScreen(navController: NavController, vm: TfViewModel, encodedUri: Str
     Column(modifier = Modifier
         .verticalScroll(scrollState)
         .fillMaxWidth()
-    ) {        Row(
+    ) {
+        Spacer(modifier = Modifier.height(30.dp))
+        Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
