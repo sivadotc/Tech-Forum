@@ -4,6 +4,7 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -15,17 +16,21 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.techforum.CustomButton
+import com.example.techforum.CustomOutlinedButton
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
@@ -61,16 +66,17 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
             Text(
                 text = "Tech Forum.",
                 style = Typography.h1,
-                modifier = Modifier.padding(top = 16.dp, bottom = 46.dp),
+                modifier = Modifier.padding(top = 50.dp, bottom = 46.dp),
                 fontSize = 35.sp
             )
             LottieAnimation(aniUrl = "https://lottie.host/5fd63085-d089-4046-b251-442988b1ed0e/qNTiUbxGiP.lottie")
-            Text(
+           /* Text(
                 text = "Login",
                 style = Typography.h1,
                 modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
                 fontSize = 30.sp,
-            )
+            ) */
+            Spacer(modifier = Modifier.height(30.dp))
             OutlinedTextField(
                 value = emailState.value,
                 onValueChange = { emailState.value = it },
@@ -112,24 +118,20 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                     onDone = { focus.clearFocus() }
                 )
             )
-            Button(
-                onClick = {
-                    focus.clearFocus(force = true)
-                    vm.onLogin(emailState.value.text, passState.value.text)
-                },
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = "LOGIN", style = Typography.body2)
+            Spacer(modifier = Modifier.height(20.dp))
+            CustomButton(text = "Login") {
+                focus.clearFocus(force = true)
+                vm.onLogin(emailState.value.text, passState.value.text)
             }
+            CustomOutlinedButton(text = "Signup") {
+                navigateTo(navController, DestinationScreen.Signup)
+            }
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "New here? Got to Signup ->", style = Typography.body2,
-                color = Color.Blue,
+                text = "New here? click on Signup", fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .padding(8.dp)
                     .bringIntoViewRequester(bringIntViewRequester)
-                    .clickable {
-                        navigateTo(navController, DestinationScreen.Signup)
-                    }
             )
         }
 

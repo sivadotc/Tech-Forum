@@ -22,12 +22,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.techforum.CustomButton
 import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.R
@@ -65,10 +67,10 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
             val passState = remember { mutableStateOf(TextFieldValue()) }
             
             SignupAnimation(aniUrl = "https://lottie.host/24c71afa-ebcb-41a6-8f2c-82dcf6cb6fdc/5XtWSAAPHz.lottie")
-            Text(
+            /* Text(
                 text = "Signup", style = Typography.h1,
                 modifier = Modifier.padding(top = 0.dp, bottom = 8.dp)
-            )
+            ) */
             OutlinedTextField(
                 value = usernameState.value,
                 onValueChange = { usernameState.value = it },
@@ -135,24 +137,22 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                     onDone = { focus.clearFocus() }
                 )
             )
-            Button(
-                onClick = {
-                    focus.clearFocus(force = true)
-                          vm.onSignup(
-                              usernameState.value.text,
-                              emailState.value.text,
-                              passState.value.text
-                          )
-                },
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = "SIGN UP", style = Typography.body2)
+            Spacer(modifier = Modifier.height(20.dp))
+            CustomButton(text = "Sign Up") {
+                focus.clearFocus(force = true)
+                vm.onSignup(
+                    usernameState.value.text,
+                    emailState.value.text,
+                    passState.value.text
+                )
             }
+
+            Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Already a user? Go to Login ->", style = Typography.body2,
-                color = Color.Blue,
+                text = "Already a user? click here to Login", fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .padding(8.dp).bringIntoViewRequester(bringIntViewRequester)
+                    .padding(8.dp)
+                    .bringIntoViewRequester(bringIntViewRequester)
                     .clickable {
                         navigateTo(navController, DestinationScreen.Login)
                     }
