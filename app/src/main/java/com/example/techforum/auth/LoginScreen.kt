@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techforum.CustomButton
 import com.example.techforum.CustomOutlinedButton
+import com.example.techforum.CustomTextField
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
@@ -38,7 +39,8 @@ import com.example.techforum.main.navigateTo
 import com.example.techforum.R
 import com.example.techforum.main.CheckSignedIn
 import com.example.techforum.main.CommonProgressSpinner
-import com.example.techforum.ui.theme.Typography
+import com.example.techforum.ui.theme.Blue
+import com.example.techforum.ui.theme.nexaCustomFont
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -65,7 +67,6 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
 
             Text(
                 text = "Tech Forum.",
-                style = Typography.h1,
                 modifier = Modifier.padding(top = 50.dp, bottom = 46.dp),
                 fontSize = 35.sp
             )
@@ -77,19 +78,25 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                 fontSize = 30.sp,
             ) */
             Spacer(modifier = Modifier.height(30.dp))
+           // CustomTextField(value = emailState.value, onValueChange = { emailState.value = it }, label = "Email", icon = R.drawable.ic_mail)
+           // CustomTextField(value = passState.value, onValueChange = { passState.value = it }, label = "Password", icon = R.drawable.ic_lock, visualTransformation = PasswordVisualTransformation())
             OutlinedTextField(
                 value = emailState.value,
                 onValueChange = { emailState.value = it },
                 modifier = Modifier.padding(8.dp),
-                label = { Text(text = "Email", style = Typography.body1) },
+                label = { Text(text = "Email", style = nexaCustomFont.body1) },
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_mail),
                         modifier = Modifier.size(30.dp),
                         contentDescription = null
                     )
-                }
-
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Blue,
+                    cursorColor = Blue,
+                    focusedLabelColor = Blue
+                )
             )
             OutlinedTextField(
                 value = passState.value,
@@ -104,7 +111,7 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
 
                         }
                     },
-                label = { Text(text = "Password", style = Typography.body1) },
+                label = { Text(text = "Password", style = nexaCustomFont.body1) },
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_lock),
@@ -116,6 +123,11 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = { focus.clearFocus() }
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Blue,
+                    cursorColor = Blue,
+                    focusedLabelColor = Blue
                 )
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -128,7 +140,7 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
             }
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "New here? click on Signup", fontWeight = FontWeight.Bold,
+                text = "New here? click on Signup",
                 modifier = Modifier
                     .padding(8.dp)
                     .bringIntoViewRequester(bringIntViewRequester)

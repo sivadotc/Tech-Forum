@@ -6,28 +6,23 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techforum.CustomButton
 import com.example.techforum.DestinationScreen
@@ -37,8 +32,8 @@ import com.example.techforum.SignupAnimation
 import com.example.techforum.main.CheckSignedIn
 import com.example.techforum.main.CommonProgressSpinner
 import com.example.techforum.main.navigateTo
-import com.example.techforum.ui.theme.Typography
-import com.example.techforum.ui.theme.nexa
+import com.example.techforum.ui.theme.Blue
+import com.example.techforum.ui.theme.nexaCustomFont
 import kotlinx.coroutines.launch
 
 
@@ -75,14 +70,19 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 value = usernameState.value,
                 onValueChange = { usernameState.value = it },
                 modifier = Modifier.padding(8.dp),
-                label = { Text(text = "Username", style = Typography.body1) },
+                label = { Text(text = "Username", style = nexaCustomFont.body1) },
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_person),
                         modifier = Modifier.size(30.dp),
                         contentDescription = null
                     )
-                }
+                },
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Blue,
+                    cursorColor = Blue,
+                    focusedLabelColor = Blue
+                )
             )
             OutlinedTextField(
                 value = emailState.value,
@@ -97,7 +97,7 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
 
                         }
                     },
-                label = { Text(text = "Email", style = Typography.body1) },
+                label = { Text(text = "Email", style = nexaCustomFont.body1) },
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_mail),
@@ -108,6 +108,11 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = { focus.clearFocus() }
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Blue,
+                    cursorColor = Blue,
+                    focusedLabelColor = Blue
                 )
             )
             OutlinedTextField(
@@ -123,7 +128,7 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
 
                         }
                     },
-                label = { Text(text = "Password", style = Typography.body1) },
+                label = { Text(text = "Password", style = nexaCustomFont.body1) },
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_lock),
@@ -135,10 +140,15 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
                 keyboardActions = KeyboardActions(
                     onDone = { focus.clearFocus() }
+                ),
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Blue,
+                    cursorColor = Blue,
+                    focusedLabelColor = Blue
                 )
             )
             Spacer(modifier = Modifier.height(20.dp))
-            CustomButton(text = "Sign Up") {
+            CustomButton(text = "Signup") {
                 focus.clearFocus(force = true)
                 vm.onSignup(
                     usernameState.value.text,
@@ -149,7 +159,7 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
 
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "Already a user? click here to Login", fontWeight = FontWeight.Bold,
+                text = "Already a user? click here to Login",
                 modifier = Modifier
                     .padding(8.dp)
                     .bringIntoViewRequester(bringIntViewRequester)

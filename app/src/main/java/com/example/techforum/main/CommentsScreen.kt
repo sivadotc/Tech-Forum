@@ -115,7 +115,7 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = comment.username ?: "", fontWeight = FontWeight.Bold)
+            Text(text = comment.username ?: "")
             Text(text = comment.text ?: "", modifier = Modifier.padding(start = 8.dp))
         }
     }

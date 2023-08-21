@@ -37,7 +37,7 @@ fun TechForumTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composa
 
     MaterialTheme(
         colors = colors,
-        typography = Typography,
+        typography = nexaCustomFont,
         shapes = Shapes,
         content = content
     )

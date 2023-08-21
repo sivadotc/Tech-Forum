@@ -27,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.techforum.ui.theme.Typography
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
@@ -82,21 +81,21 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                     newPostImageLauncher.launch("image/*")
                 }
                 Text(
-                    text = "${posts.size}\nPosts", style = Typography.body1, fontWeight = FontWeight.Bold,
+                    text = "${posts.size}\nPosts",
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "$followers\nFollowers", style = Typography.body1, fontWeight = FontWeight.Bold,
+                    text = "$followers\nFollowers",
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "${userData?.following?.size ?: 0}\nFollowing", style = Typography.body1, fontWeight = FontWeight.Bold,
+                    text = "${userData?.following?.size ?: 0}\nFollowing",
                     modifier = Modifier
                         .weight(1f)
                         .align(Alignment.CenterVertically),
@@ -105,7 +104,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
             }
             Column(modifier = Modifier.padding(8.dp)) {
                 val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
-                Text(text = userData?.name ?: "", style = Typography.body1, fontWeight = FontWeight.Bold)
+                Text(text = userData?.name ?: "")
                 Text(
                     text = usernameDisplay,
                     Modifier
@@ -127,7 +126,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 ),
                 shape = RoundedCornerShape(10)
             ) {
-                Text(text = "Edit Profile", style = Typography.body1, fontWeight = FontWeight.Bold)
+                Text(text = "Edit Profile")
             }
             PostList(
                 isContextLoading = isLoading,
@@ -202,7 +201,7 @@ fun PostList(
             verticalArrangement = Arrangement.Center
         ) {
             if (!isContextLoading) {
-                Text(text = "No posts available",  style = Typography.body1,)
+                Text(text = "No posts available")
             }
         }
     } else {
