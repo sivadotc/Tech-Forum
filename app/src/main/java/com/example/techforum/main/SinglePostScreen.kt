@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -22,6 +23,8 @@ import coil.compose.rememberImagePainter
 import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
+import com.example.techforum.ui.theme.Blue
+import com.example.techforum.ui.theme.nexaCustomFont
 
 
 @Composable
@@ -40,7 +43,7 @@ fun SinglePostScreen(navController: NavController, vm: TfViewModel, post: PostDa
                 .wrapContentHeight()
                 .padding(8.dp)
         ) {
-            Spacer(modifier = Modifier.height(30.dp))
+            Spacer(modifier = Modifier.height(40.dp))
             Text(text = "Back", modifier = Modifier.clickable { navController.popBackStack() })
 
             CommonDivider()
@@ -68,16 +71,12 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
             verticalAlignment = Alignment.CenterVertically
         ) {
             Card(
-                shape = CircleShape, modifier = Modifier
-                    .padding(8.dp)
-                    .size(32.dp)
+                shape = CircleShape, modifier = Modifier.size(32.dp)
             ) {
-               Image(
-                   painter = rememberImagePainter(data = post.userImage),
-                   contentDescription = null
-               )
+                CommonImage(data = post.userImage, contentScale = ContentScale.Crop)
+
             }
-            Text(text = post.username ?: "")
+            Text(text = post.username ?: "", modifier = Modifier.padding(start = 8.dp), style = nexaCustomFont.body2)
             Text(text = ".", modifier = Modifier.padding(8.dp))
             
             if (userData?.userId == post.userId) {
@@ -91,7 +90,7 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
             } else {
                 Text(
                     text = "Follow",
-                    color = Color.Blue,
+                    color = Blue,
                     modifier = Modifier.clickable { vm.onFollowClick(post.userId!!) }
                 )
             }
@@ -110,21 +109,8 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
         )
     }
 
-    // Like feature to implement in future updates
-
-   /* Row(modifier = Modifier.padding(8.dp), verticalAlignment = Alignment.CenterVertically) {
-        Image(
-            painter = painterResource(id = com.example.techforum.R.drawable.ic_like),
-            contentDescription = null,
-            modifier = Modifier.size(24.dp),
-            colorFilter = ColorFilter.tint(Color.Red)
-        )
-        Text(text = " ${post.likes?.size ?: 0} likes", modifier = Modifier.padding(start = 0.dp))
-    }
-    */
-
-    Row(modifier = Modifier.padding(8.dp)) {
-        Text(text = post.username ?: "", fontWeight = FontWeight.Bold)
+    Row(modifier = Modifier.padding(top = 8.dp)) {
+        Text(text = post.username ?: "", style = nexaCustomFont.body2)
         Text(text = post.postDescription ?: "", modifier = Modifier.padding(start = 8.dp))
     }
     Row(modifier = Modifier.padding(8.dp)) {

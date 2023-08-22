@@ -17,6 +17,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -27,6 +28,7 @@ import com.example.techforum.DestinationScreen
 import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
+import com.example.techforum.ui.theme.nexaCustomFont
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -99,11 +101,11 @@ fun Post(post: PostData, currentUserId: String, vm: TfViewModel, onPostClick: ()
     //val dislikeAnimation = remember { mutableStateOf(false) }
 
     Card(
-        shape = RoundedCornerShape(corner = CornerSize(4.dp)),
+        shape = RoundedCornerShape(corner = CornerSize(10.dp)),
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(top = 4.dp, bottom = 4.dp)
+            .padding(vertical = 8.dp, horizontal = 8.dp).shadow(100.dp)
     ) {
         Column() {
             Row(
@@ -115,12 +117,12 @@ fun Post(post: PostData, currentUserId: String, vm: TfViewModel, onPostClick: ()
                 Card(
                     shape = CircleShape,
                     modifier = Modifier
-                        .padding(4.dp)
+                        .padding(8.dp)
                         .size(32.dp)
                 ) {
                    CommonImage(data = post.userImage, contentScale = ContentScale.Crop)
                 }
-                Text(text = post.username ?: "", modifier = Modifier.padding(4.dp))
+                Text(text = post.username ?: "", style = nexaCustomFont.body2, modifier = Modifier.padding(4.dp))
             }
 
             Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {

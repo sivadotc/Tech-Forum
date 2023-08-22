@@ -26,6 +26,7 @@ import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.CommentData
 import com.example.techforum.ui.theme.Blue
+import com.example.techforum.ui.theme.nexaCustomFont
 import org.w3c.dom.Comment
 
 
@@ -39,7 +40,7 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
     val commentsProgress = vm.commentsProgress.value
 
     Column(modifier = Modifier.fillMaxSize()) {
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         if (commentsProgress) {
             Column(
@@ -82,28 +83,22 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                     backgroundColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
-                    disabledIndicatorColor = Color.Transparent
+                    disabledIndicatorColor = Color.Transparent,
+                    cursorColor = Blue,
                 )
             )
             Icon(
                 painter = painterResource(id = R.drawable.ic_send),
                 contentDescription = null,
                 modifier = Modifier.padding(8.dp).size(40.dp).clickable {
-                    vm.createComment(postId = postId, text = commentText)
-                    commentText = ""
-                    focusManager.clearFocus()
+                    if (commentText.isNotBlank()) {
+                        vm.createComment(postId = postId, text = commentText)
+                        commentText = ""
+                        focusManager.clearFocus()
+                    }
                 }, tint = Blue
             )
 
-            /*Button(onClick = {
-                vm.createComment(postId = postId, text = commentText)
-                commentText = ""
-                focusManager.clearFocus()
-            },
-                modifier = Modifier.padding(start = 8.dp)
-            ) {
-                Text(text = "Comment")
-            }*/
         }
         }
     }
@@ -115,7 +110,7 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            Text(text = comment.username ?: "")
+            Text(text = comment.username ?: "", style = nexaCustomFont.body2)
             Text(text = comment.text ?: "", modifier = Modifier.padding(start = 8.dp))
         }
     }

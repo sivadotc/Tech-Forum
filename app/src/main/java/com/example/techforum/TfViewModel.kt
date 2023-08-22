@@ -384,7 +384,7 @@ class TfViewModel @Inject constructor(
     private fun getGeneralFeed() {
         postsFeedProgress.value = true
         val currentTime = System.currentTimeMillis()
-        val difference = 120 * 24 * 60 * 60* 1000 //4 months in millis
+        val difference = 120 * 24 * 60 * 60* 1000L //4 months in millis
         db.collection(POSTS)
             .whereGreaterThan("time", currentTime - difference)
             .get()
@@ -398,34 +398,6 @@ class TfViewModel @Inject constructor(
             }
     }
 
-    // Like functionality
-  /* fun onLikePost(postData: PostData) {
-        auth.currentUser?.uid?.let { userId ->
-            postData.likes?.let { likes ->
-                val newLikes = arrayListOf<String>()
-                if (likes.contains(userId)) {
-                    newLikes.addAll(likes.filter { userId != it })
-                } else {
-                    newLikes.addAll(likes)
-                    newLikes.add(userId)
-                }
-
-                postData.postId?.let { postId ->
-                    db.collection(POSTS).document(postId).update("likes", newLikes)
-                        .addOnSuccessListener {
-                            postData.likes = newLikes
-                        }
-                        .addOnFailureListener {
-                            handleException(it, "Unable to like post")
-                        }
-                }
-            }
-
-
-        }
-    }
-
-   */
 
 
     fun createComment(postId: String, text: String) {
@@ -475,6 +447,3 @@ class TfViewModel @Inject constructor(
             }
     }
 }
-
-
-
