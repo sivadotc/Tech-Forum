@@ -32,6 +32,7 @@ import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
 import com.example.techforum.R
 import com.example.techforum.data.PostData
+import com.example.techforum.ui.theme.nexaCustomFont
 
 
 data class PostRow(
@@ -201,7 +202,17 @@ fun PostList(
             verticalArrangement = Arrangement.Center
         ) {
             if (!isContextLoading) {
-                Text(text = "No posts available")
+                Column(
+                    modifier = Modifier.height(200.dp).width(200.dp)
+                       // .fillMaxSize()
+                        .size(200.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    LottieAnimation(aniUrl = "https://lottie.host/c5d77710-fcfb-4a0f-97fa-f00d2ac09d81/Drch4bQtte.lottie")
+
+                }
+                Text(text = "No posts available", style = nexaCustomFont.body2)
             }
         }
     } else {

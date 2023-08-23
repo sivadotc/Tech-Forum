@@ -28,6 +28,7 @@ import androidx.navigation.NavController
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.techforum.DestinationScreen
+import com.example.techforum.LottieAnimation
 import com.example.techforum.R
 import com.example.techforum.TfViewModel
 
@@ -40,6 +41,7 @@ fun NotificationMessage(vm: TfViewModel) {
     }
 }
 
+
 @Composable
 fun CommonProgressSpinner() {
     Row(
@@ -51,7 +53,8 @@ fun CommonProgressSpinner() {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ){
-        CircularProgressIndicator()
+       // CircularProgressIndicator()
+        LottieAnimation(aniUrl = "https://lottie.host/ebb2335b-4844-4527-a5e4-5e73f3a0e916/Jxig2ZTpoZ.json")
 
     }
 }
@@ -131,36 +134,3 @@ fun CommonDivider() {
             .padding(top = 8.dp, bottom = 8.dp)
     )
 }
-
-/*private enum class LikeIconSize {
-    SMALL,
-    LARGE
-}
-
-@Composable
-fun LikeAnimation(like: Boolean = true) {
-    var sizeState by remember { mutableStateOf(LikeIconSize.SMALL) }
-    val transition = updateTransition(targetState = sizeState, label = "")
-    val size by transition.animateDp(
-        label = "",
-        transitionSpec = {
-            spring(
-                dampingRatio = Spring.DampingRatioMediumBouncy,
-                stiffness = Spring.StiffnessLow
-            )
-        }
-    ) { state ->
-        when (state) {
-            LikeIconSize.SMALL -> 0.dp
-            LikeIconSize.LARGE -> 150.dp
-        }
-    }
-    
-    Image(
-        painter = painterResource(id = if (like) R.drawable.ic_like else R.drawable.ic_dislike),
-        contentDescription = null,
-        modifier = Modifier.size(size = size),
-        colorFilter = ColorFilter.tint(if (like) Color.Red else Color.Gray)
-    )
-
-}*/
