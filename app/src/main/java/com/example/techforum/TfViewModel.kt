@@ -4,10 +4,12 @@ import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.navigation.NavController
 import com.example.techforum.data.CommentData
 import com.example.techforum.data.Event
 import com.example.techforum.data.PostData
 import com.example.techforum.data.UserData
+import com.example.techforum.main.navigateTo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -56,7 +58,7 @@ class TfViewModel @Inject constructor(
         }
     }
 
-    fun onSignup(username: String, email: String, pass: String) {
+    fun onSignup(username: String, email: String, pass: String, navController: NavController) {
         if (username.isEmpty() or email.isEmpty() or pass.isEmpty()) {
             handleException(customMessage = "Please fill in all fields")
             return
@@ -72,8 +74,10 @@ class TfViewModel @Inject constructor(
                     auth.createUserWithEmailAndPassword(email, pass)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                signedIn.value = true
+                                signedIn.value = false
                                 createOrUpdateProfile(username = username)
+                                handleException(customMessage = "Signup completed, please login")
+                                navController.navigate(DestinationScreen.Login.route)
                             } else {
                                 handleException(task.exception, "Signup failed")
                             }

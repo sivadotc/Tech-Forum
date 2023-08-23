@@ -154,7 +154,8 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 vm.onSignup(
                     usernameState.value.text,
                     emailState.value.text,
-                    passState.value.text
+                    passState.value.text,
+                    navController
                 )
             }
 
