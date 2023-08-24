@@ -1,5 +1,5 @@
 package com.example.techforum.main
-/*
+
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,24 +14,29 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
 import com.example.techforum.R
 import com.example.techforum.data.PostData
+import com.example.techforum.ui.theme.Blue
 import com.example.techforum.ui.theme.nexaCustomFont
 
 
@@ -77,32 +82,22 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
     Column() {
         Spacer(modifier = Modifier.height(30.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Row {
+            Row (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 ProfileImage(userData?.imageUrl) {
                     newPostImageLauncher.launch("image/*")
                 }
-                Text(
-                    text = "${posts.size}\nPosts",
-                    modifier = Modifier
-                        .weight(1f)
-                        .align(Alignment.CenterVertically),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "$followers\nFollowers",
-                    modifier = Modifier
-                        .weight(1f)
-                        .align(Alignment.CenterVertically),
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    text = "${userData?.following?.size ?: 0}\nFollowing",
-                    modifier = Modifier
-                        .weight(1f)
-                        .align(Alignment.CenterVertically),
-                    textAlign = TextAlign.Center
-                )
             }
+            Row(modifier = Modifier.fillMaxWidth()) {
+                CustomCard("${posts.size}", "Posts", R.drawable.ic_post, Modifier.weight(1f))
+                CustomCard("$followers", "Followers", R.drawable.ic_followers, Modifier.weight(1f))
+                CustomCard("${userData?.following?.size ?: 0}", "Following", R.drawable.ic_following, Modifier.weight(1f))
+            }
+
+
             Column(modifier = Modifier.padding(8.dp)) {
                 val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
                 Text(text = userData?.name ?: "")
@@ -203,8 +198,10 @@ fun PostList(
         ) {
             if (!isContextLoading) {
                 Column(
-                    modifier = Modifier.height(200.dp).width(200.dp)
-                       // .fillMaxSize()
+                    modifier = Modifier
+                        .height(200.dp)
+                        .width(200.dp)
+                        // .fillMaxSize()
                         .size(200.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -278,4 +275,46 @@ fun PostImage(imageUrl: String?, modifier: Modifier) {
     }
 }
 
- */
+@Composable
+fun CustomCard(postNum: String, text: String, icon: Int, modifier: Modifier) {
+    Card(
+        modifier = Modifier
+            .padding(8.dp),
+        elevation = 5.dp,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(4.dp)
+                .clip(RoundedCornerShape(10.dp)),
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(modifier = Modifier
+                .padding(4.dp)
+                .clip(RoundedCornerShape(3.dp))
+                .background(Blue)){
+                Icon(
+                    painter = painterResource(id = icon),
+                    contentDescription = null,
+                    tint = Color.White,
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(20.dp)
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 8.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(text = postNum, style = nexaCustomFont.body2, fontSize = 12.sp)
+                Text(text = text, fontSize = 12.sp)
+            }
+        }
+
+    }
+}
+
+
