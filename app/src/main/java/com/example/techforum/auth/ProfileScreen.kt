@@ -9,8 +9,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
@@ -22,14 +26,21 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.techforum.CustomOutlinedButton
 import com.example.techforum.DestinationScreen
+import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.main.CommonDivider
 import com.example.techforum.main.CommonImage
 import com.example.techforum.main.CommonProgressSpinner
 import com.example.techforum.main.navigateTo
+import com.example.techforum.ui.theme.Blue
+import com.example.techforum.ui.theme.nexaCustomFont
 
 @Composable
 fun ProfileScreen(navController: NavController, vm: TfViewModel) {
@@ -75,11 +86,12 @@ fun ProfileContent(
 ) {
     val scrollState = rememberScrollState()
     val imageUrl = vm.userData?.value?.imageUrl
+    val focus = LocalFocusManager.current
     
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
-            .padding(8.dp)
+            .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         Row(
@@ -98,64 +110,67 @@ fun ProfileContent(
 
             CommonDivider()
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 4.dp, end = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Name", modifier = Modifier.width(100.dp))
-                TextField(
-                    value = name,
-                    onValueChange = onNameChange,
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    )
-                )
-            }
+        OutlinedTextField(
+            value = name,
+            onValueChange = onNameChange,
+            modifier = Modifier.padding(8.dp),
+            label = { Text(text = "Name", style = nexaCustomFont.body1) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Blue,
+                cursorColor = Blue,
+                focusedLabelColor = Blue
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { focus.clearFocus() }
+            )
+        )
+        OutlinedTextField(
+            value = username,
+            onValueChange = onUsernameChange,
+            modifier = Modifier.padding(8.dp),
+            label = { Text(text = "Username", style = nexaCustomFont.body1) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Blue,
+                cursorColor = Blue,
+                focusedLabelColor = Blue
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(
+                onDone = { focus.clearFocus() }
+            )
+        )
+        OutlinedTextField(
+            value = bio,
+            onValueChange = onBioChange,
+            modifier = Modifier.padding(8.dp),
+            label = { Text(text = "Bio", style = nexaCustomFont.body1) },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Blue,
+                cursorColor = Blue,
+                focusedLabelColor = Blue,
+                trailingIconColor = Blue
+            ),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.None),
+            keyboardActions = KeyboardActions(
+                onDone = { focus.clearFocus() }
+            )
+        )
+        Spacer(modifier = Modifier.height(10.dp))
+        
+        CustomOutlinedButton(text = "Logout") {
+            onLogout.invoke()
+        }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 4.dp, end = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = "Username", modifier = Modifier.width(100.dp))
-                TextField(
-                    value = username,
-                    onValueChange = onUsernameChange,
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    )
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 4.dp, end = 4.dp),
-                verticalAlignment = Alignment.Top
-            ) {
-                Text(text = "Bio", modifier = Modifier.width(100.dp))
-                TextField(
-                    value = bio,
-                    onValueChange = onBioChange,
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = Color.Transparent
-                    ),
-                    singleLine = false,
-                    modifier = Modifier.height(150.dp)
-                )
-            }
             
-            Row(
+          /*  Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp, bottom = 16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
                 Text(text = "Logout", modifier = Modifier.clickable { onLogout.invoke() })
-            }
+            } */
     }
 }
 

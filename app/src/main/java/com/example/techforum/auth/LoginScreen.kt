@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techforum.CustomButton
 import com.example.techforum.CustomOutlinedButton
-import com.example.techforum.CustomTextField
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel

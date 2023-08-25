@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.techforum.CustomOutlinedButton
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
 import com.example.techforum.TfViewModel
@@ -81,7 +82,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
 
     Column() {
         Spacer(modifier = Modifier.height(30.dp))
-        Column(modifier = Modifier.weight(1f)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Row (
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center,
@@ -91,46 +92,84 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                     newPostImageLauncher.launch("image/*")
                 }
             }
-            Row(modifier = Modifier.fillMaxWidth()) {
-                CustomCard("${posts.size}", "Posts", R.drawable.ic_post, Modifier.weight(1f))
-                CustomCard("$followers", "Followers", R.drawable.ic_followers, Modifier.weight(1f))
-                CustomCard("${userData?.following?.size ?: 0}", "Following", R.drawable.ic_following, Modifier.weight(1f))
-            }
-
-
-            Column(modifier = Modifier.padding(8.dp)) {
-                val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
-                Text(text = userData?.name ?: "")
-                Text(
-                    text = usernameDisplay,
-                    Modifier
-                        .background(color = Color.Gray, shape = RoundedCornerShape(10.dp))
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                )
-                Text(text = userData?.bio ?: "")
-            }
-            OutlinedButton(
-                onClick = { navigateTo(navController, DestinationScreen.Profile) },
+            val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(text = userData?.name ?: "", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Text(
+                text = "@$usernameDisplay"
+            )
+            Row(
                 modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
-                elevation = ButtonDefaults.elevation(
-                    defaultElevation = 0.dp,
-                    pressedElevation = 0.dp,
-                    disabledElevation = 0.dp
-                ),
-                shape = RoundedCornerShape(10)
+                    .fillMaxWidth()
+                    .padding(vertical = 20.dp, horizontal = 30.dp),
+                horizontalArrangement = Arrangement.SpaceAround
             ) {
-                Text(text = "Edit Profile")
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "${posts.size}",
+                        style = nexaCustomFont.body2,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Posts",
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "$followers",
+                        style = nexaCustomFont.body2,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Followers",
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = "${userData?.following?.size ?: 0}",
+                        style = nexaCustomFont.body2,
+                        textAlign = TextAlign.Center
+                    )
+                    Text(
+                        text = "Following",
+                        textAlign = TextAlign.Center
+                    )
+                }
+
             }
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                elevation = 5.dp,
+                shape = RoundedCornerShape(10.dp)
+            ) {
+                Column(modifier = Modifier.padding(10.dp)) {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = "About Me",style = nexaCustomFont.body2)
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_edit),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .size(25.dp)
+                                .clickable { navigateTo(navController, DestinationScreen.Profile) },
+                            tint = Blue
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = userData?.bio ?: "")
+                }
+            }
+
             PostList(
                 isContextLoading = isLoading,
                 postsLoading = postsLoading,
                 posts = posts,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(1.dp)
+                    .padding(8.dp)
                     .fillMaxSize(),
             ) { post ->
                 navigateTo(
@@ -140,11 +179,12 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 )
             }
 
+            BottomNavigationMenu(
+                selectedItem = BottomNavigationItem.POSTS,
+                navController = navController
+            )
         }
-        BottomNavigationMenu(
-            selectedItem = BottomNavigationItem.POSTS,
-            navController = navController
-        )
+
     }
 
 }

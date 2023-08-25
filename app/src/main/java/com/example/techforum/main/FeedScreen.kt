@@ -1,5 +1,6 @@
 package com.example.techforum.main
 
+import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.End
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -10,6 +11,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +24,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -28,6 +32,7 @@ import com.example.techforum.DestinationScreen
 import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
+import com.example.techforum.ui.theme.Blue
 import com.example.techforum.ui.theme.nexaCustomFont
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -40,12 +45,12 @@ fun FeedScreen(navController: NavController, vm: TfViewModel) {
     val userData = vm.userData.value
     val personalizedFeed = vm.postsFeed.value
     val personalizedFeedLoading = vm.postsFeedProgress.value
-    
+
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
-            //.background(Color.LightGray)
+        //.background(Color.LightGray)
     ) {
         Spacer(modifier = Modifier.height(30.dp))
         Image(
@@ -63,9 +68,14 @@ fun FeedScreen(navController: NavController, vm: TfViewModel) {
             vm = vm,
             currentUserId = userData?.userId ?: ""
         )
-
+        FloatingActionButton(onClick = { /*TODO*/ }) {
+            Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = null)
+        }
         BottomNavigationMenu(selectedItem = BottomNavigationItem.FEED, navController = navController)
+
     }
+
+
 }
 
 @Composable
@@ -105,7 +115,8 @@ fun Post(post: PostData, currentUserId: String, vm: TfViewModel, onPostClick: ()
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(vertical = 8.dp, horizontal = 8.dp).shadow(100.dp)
+            .padding(vertical = 8.dp, horizontal = 8.dp)
+            .shadow(100.dp)
     ) {
         Column() {
             Row(
