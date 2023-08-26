@@ -22,6 +22,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.techforum.LottieAnimation
 import com.example.techforum.R
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.CommentData
@@ -39,8 +40,9 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
     val comments = vm.comments.value
     val commentsProgress = vm.commentsProgress.value
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
         Spacer(modifier = Modifier.height(40.dp))
+
 
         if (commentsProgress) {
             Column(
@@ -56,6 +58,7 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                LottieAnimation(aniUrl = "https://lottie.host/f4750a10-555e-40a5-b4a3-fb6a2941047e/hYlLzi5R9U.lottie")
                 Text(text = "No Comments available")
             }
         } else {
@@ -90,13 +93,16 @@ fun CommentsScreen(navController: NavController, vm: TfViewModel, postId: String
             Icon(
                 painter = painterResource(id = R.drawable.ic_send),
                 contentDescription = null,
-                modifier = Modifier.padding(8.dp).size(40.dp).clickable {
-                    if (commentText.isNotBlank()) {
-                        vm.createComment(postId = postId, text = commentText)
-                        commentText = ""
-                        focusManager.clearFocus()
-                    }
-                }, tint = Blue
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(40.dp)
+                    .clickable {
+                        if (commentText.isNotBlank()) {
+                            vm.createComment(postId = postId, text = commentText)
+                            commentText = ""
+                            focusManager.clearFocus()
+                        }
+                    }, tint = Blue
             )
 
         }

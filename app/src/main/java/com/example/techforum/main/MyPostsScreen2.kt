@@ -1,5 +1,5 @@
 package com.example.techforum.main
-
+/*
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,7 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techforum.DestinationScreen
 import com.example.techforum.LottieAnimation
@@ -56,7 +55,16 @@ data class PostRow(
 @Composable
 fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
 
+    val newPostImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ){ uri ->
+        uri?.let {
+            val encoded = Uri.encode(it.toString())
+            val route = DestinationScreen.NewPost.createRoute(encoded)
+            navController.navigate(route)
+        }
 
+    }
 
     val userData = vm.userData.value
     val isLoading = vm.inProgress.value
@@ -69,73 +77,47 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
     Column() {
         Spacer(modifier = Modifier.height(30.dp))
         Column(modifier = Modifier.weight(1f)) {
-            Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                ProfileImage(userData?.imageUrl)
-
-                val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
-                Spacer(modifier = Modifier.height(10.dp))
-                Text(text = userData?.name ?: "", fontSize = 20.sp, fontWeight = FontWeight.Bold)
+            Row {
+                ProfileImage(userData?.imageUrl) {
+                    newPostImageLauncher.launch("image/*")
+                }
                 Text(
-                    text = "@$usernameDisplay"
+                    text = "${posts.size}\nPosts",
+                    modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "$followers\nFollowers",
+                    modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    text = "${userData?.following?.size ?: 0}\nFollowing",
+                    modifier = Modifier
+                        .weight(1f)
+                        .align(Alignment.CenterVertically),
+                    textAlign = TextAlign.Center
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 20.dp, horizontal = 30.dp),
-                horizontalArrangement = Arrangement.SpaceAround
-            ) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "${posts.size}",
-                        style = nexaCustomFont.body2,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Posts",
-                        textAlign = TextAlign.Center
-                    )
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "$followers",
-                        style = nexaCustomFont.body2,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Followers",
-                        textAlign = TextAlign.Center
-                    )
-                }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        text = "${userData?.following?.size ?: 0}",
-                        style = nexaCustomFont.body2,
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = "Following",
-                        textAlign = TextAlign.Center
-                    )
-                }
-
-            }
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                elevation = 5.dp,
-                shape = RoundedCornerShape(10.dp)
-            ) {
-                Column(modifier = Modifier.padding(10.dp)) {
-                    Text(text = userData?.bio ?: "")
-                }
+            Column(modifier = Modifier.padding(8.dp)) {
+                val usernameDisplay = if (userData?.username == null) "" else "${userData?.username}"
+                Text(text = userData?.name ?: "")
+                Text(
+                    text = usernameDisplay,
+                    Modifier
+                        .background(color = Color.Gray, shape = RoundedCornerShape(10.dp))
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                )
+                Text(text = userData?.bio ?: "")
             }
             OutlinedButton(
                 onClick = { navigateTo(navController, DestinationScreen.Profile) },
                 modifier = Modifier
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .padding(8.dp)
                     .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(backgroundColor = Color.Transparent),
                 elevation = ButtonDefaults.elevation(
@@ -145,7 +127,7 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 ),
                 shape = RoundedCornerShape(10)
             ) {
-                Text(text = "Edit Profile", style = nexaCustomFont.body1)
+                Text(text = "Edit Profile")
             }
             PostList(
                 isContextLoading = isLoading,
@@ -173,16 +155,31 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
 }
 
 @Composable
-fun ProfileImage(imageUrl: String?) {
+fun ProfileImage(imageUrl: String?, onClick: () -> Unit) {
     Box(modifier = Modifier
         .padding(top = 16.dp)
-    ) {
+        .clickable { onClick.invoke() }) {
             UserImageCard(
                 userImage = imageUrl,
                 modifier = Modifier
                     .padding(8.dp)
                     .size(80.dp)
             )
+            Card(
+                shape = CircleShape,
+                border = BorderStroke(2.dp, color = Color.Gray),
+                modifier = Modifier
+                    .size(32.dp)
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 8.dp, end = 8.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_add),
+                    contentDescription = null,
+                    //modifier = Modifier.background(Color.Blue)
+                )
+            }
+
 
     }
 }
@@ -206,10 +203,8 @@ fun PostList(
         ) {
             if (!isContextLoading) {
                 Column(
-                    modifier = Modifier
-                        .height(200.dp)
-                        .width(200.dp)
-                        // .fillMaxSize()
+                    modifier = Modifier.height(200.dp).width(200.dp)
+                       // .fillMaxSize()
                         .size(200.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -283,3 +278,4 @@ fun PostImage(imageUrl: String?, modifier: Modifier) {
     }
 }
 
+ */

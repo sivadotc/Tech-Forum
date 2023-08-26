@@ -1,5 +1,5 @@
 package com.example.techforum.main
-
+/*
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -179,12 +179,12 @@ fun MyPostsScreen(navController: NavController, vm: TfViewModel) {
                 )
             }
 
-            BottomNavigationMenu(
-                selectedItem = BottomNavigationItem.POSTS,
-                navController = navController
-            )
-        }
 
+        }
+        BottomNavigationMenu(
+            selectedItem = BottomNavigationItem.POSTS,
+            navController = navController
+        )
     }
 
 }
@@ -315,46 +315,4 @@ fun PostImage(imageUrl: String?, modifier: Modifier) {
     }
 }
 
-@Composable
-fun CustomCard(postNum: String, text: String, icon: Int, modifier: Modifier) {
-    Card(
-        modifier = Modifier
-            .padding(8.dp),
-        elevation = 5.dp,
-        shape = RoundedCornerShape(8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(4.dp)
-                .clip(RoundedCornerShape(10.dp)),
-            horizontalArrangement = Arrangement.Start,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(modifier = Modifier
-                .padding(4.dp)
-                .clip(RoundedCornerShape(3.dp))
-                .background(Blue)){
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier
-                        .padding(4.dp)
-                        .size(20.dp)
-                )
-            }
-            Column(
-                modifier = Modifier
-                    .padding(horizontal = 8.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = postNum, style = nexaCustomFont.body2, fontSize = 12.sp)
-                Text(text = text, fontSize = 12.sp)
-            }
-        }
-
-    }
-}
-
-
+ */

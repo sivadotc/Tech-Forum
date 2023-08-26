@@ -1,5 +1,8 @@
 package com.example.techforum.main
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.End
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -46,37 +50,60 @@ fun FeedScreen(navController: NavController, vm: TfViewModel) {
     val personalizedFeed = vm.postsFeed.value
     val personalizedFeedLoading = vm.postsFeedProgress.value
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-        //.background(Color.LightGray)
-    ) {
-        Spacer(modifier = Modifier.height(30.dp))
-        Image(
-            painter = painterResource(id = R.drawable.techforumlogo),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(60.dp)
-        )
-        PostsList(
-            posts = personalizedFeed,
-            modifier = Modifier.weight(1f),
-            loading = personalizedFeedLoading or userDataLoading,
-            navController = navController,
-            vm = vm,
-            currentUserId = userData?.userId ?: ""
-        )
-        FloatingActionButton(onClick = { /*TODO*/ }) {
-            Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = null)
+    val newPostImageLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ){ uri ->
+        uri?.let {
+            val encoded = Uri.encode(it.toString())
+            val route = DestinationScreen.NewPost.createRoute(encoded)
+            navController.navigate(route)
         }
-        BottomNavigationMenu(selectedItem = BottomNavigationItem.FEED, navController = navController)
 
     }
 
-
+    Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    newPostImageLauncher.launch("image/*")
+                },
+                modifier = Modifier
+                    .padding(bottom = 80.dp, end = 10.dp),
+                shape = RoundedCornerShape(15.dp),
+                contentColor = Color.White,
+                backgroundColor = Blue
+            ) {
+                Icon(painter = painterResource(id = R.drawable.ic_add), contentDescription = null)
+            }
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(30.dp))
+                Image(
+                    painter = painterResource(id = R.drawable.techforumlogo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(60.dp)
+                )
+                PostsList(
+                    posts = personalizedFeed,
+                    modifier = Modifier.weight(1f),
+                    loading = personalizedFeedLoading or userDataLoading,
+                    navController = navController,
+                    vm = vm,
+                    currentUserId = userData?.userId ?: ""
+                )
+                BottomNavigationMenu(selectedItem = BottomNavigationItem.FEED, navController = navController)
+            }
+        }
+    )
 }
+
 
 @Composable
 fun PostsList(
@@ -115,8 +142,8 @@ fun Post(post: PostData, currentUserId: String, vm: TfViewModel, onPostClick: ()
         modifier = Modifier
             .fillMaxWidth()
             .wrapContentHeight()
-            .padding(vertical = 8.dp, horizontal = 8.dp)
-            .shadow(100.dp)
+            .padding(vertical = 8.dp, horizontal = 8.dp),
+        elevation = 10.dp
     ) {
         Column() {
             Row(

@@ -31,6 +31,7 @@ fun SearchScreen(navController: NavController, vm: TfViewModel) {
     val searchedPosts = vm.searchedPosts.value
     var searchTerms by rememberSaveable { mutableStateOf("") }
 
+
     Column(
         modifier = Modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween

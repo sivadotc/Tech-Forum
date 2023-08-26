@@ -23,6 +23,8 @@ import androidx.navigation.NavController
 import coil.compose.ImagePainter
 import coil.compose.rememberImagePainter
 import com.example.techforum.TfViewModel
+import com.example.techforum.ui.theme.Blue
+import com.example.techforum.ui.theme.nexaCustomFont
 
 
 @Composable
@@ -36,7 +38,7 @@ fun NewPostScreen(navController: NavController, vm: TfViewModel, encodedUri: Str
         .verticalScroll(scrollState)
         .fillMaxWidth()
     ) {
-        Spacer(modifier = Modifier.height(30.dp))
+        Spacer(modifier = Modifier.height(40.dp))
         Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -67,9 +69,13 @@ fun NewPostScreen(navController: NavController, vm: TfViewModel, encodedUri: Str
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(150.dp),
-                label = { Text(text = "Description") },
+                label = { Text(text = "Description", style = nexaCustomFont.body1) },
                 singleLine = false,
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Transparent)
+                colors = TextFieldDefaults.outlinedTextFieldColors(
+                    focusedBorderColor = Blue,
+                    cursorColor = Blue,
+                    focusedLabelColor = Blue
+                )
             )
         }
     }
