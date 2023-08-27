@@ -21,6 +21,7 @@ import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -75,7 +76,7 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_person),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(25.dp),
                         contentDescription = null
                     )
                 },
@@ -102,11 +103,11 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_mail),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(25.dp),
                         contentDescription = null
                     )
                 },
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done, keyboardType = KeyboardType.Email),
                 keyboardActions = KeyboardActions(
                     onDone = { focus.clearFocus() }
                 ),
@@ -133,7 +134,7 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_lock),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(25.dp),
                         contentDescription = null
                     )
                 },

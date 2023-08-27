@@ -145,6 +145,7 @@ fun ProfileContent(
             onValueChange = onBioChange,
             modifier = Modifier.padding(8.dp),
             label = { Text(text = "Bio", style = nexaCustomFont.body1) },
+            singleLine = false,
             colors = TextFieldDefaults.outlinedTextFieldColors(
                 focusedBorderColor = Blue,
                 cursorColor = Blue,
@@ -162,15 +163,6 @@ fun ProfileContent(
             onLogout.invoke()
         }
 
-            
-          /*  Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 16.dp),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(text = "Logout", modifier = Modifier.clickable { onLogout.invoke() })
-            } */
     }
 }
 

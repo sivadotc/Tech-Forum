@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
@@ -64,11 +65,14 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
             val emailState = remember { mutableStateOf(TextFieldValue()) }
             val passState = remember { mutableStateOf(TextFieldValue()) }
 
-            Text(
-                text = "Tech Forum.",
-                modifier = Modifier.padding(top = 50.dp, bottom = 46.dp),
-                fontSize = 35.sp
+            //Spacer(modifier = Modifier.height(10.dp))
+
+            Image(
+                painter = painterResource(id = R.drawable.techforum_logo),
+                contentDescription = null,
+                Modifier.size(150.dp)
             )
+           // Spacer(modifier = Modifier.height(10.dp))
             LottieAnimation(aniUrl = "https://lottie.host/5fd63085-d089-4046-b251-442988b1ed0e/qNTiUbxGiP.lottie")
            /* Text(
                 text = "Login",
@@ -87,7 +91,7 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_mail),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(25.dp),
                         contentDescription = null
                     )
                 },
@@ -95,6 +99,10 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                     focusedBorderColor = Blue,
                     cursorColor = Blue,
                     focusedLabelColor = Blue
+                ),
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Done, // Customize the IME action if needed
+                    keyboardType = KeyboardType.Email // Use the email keyboard type
                 )
             )
             OutlinedTextField(
@@ -114,7 +122,7 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.ic_lock),
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(25.dp),
                         contentDescription = null
                     )
                 },
@@ -129,7 +137,7 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                     focusedLabelColor = Blue
                 )
             )
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(30.dp))
             CustomButton(text = "Login") {
                 focus.clearFocus(force = true)
                 vm.onLogin(emailState.value.text, passState.value.text)

@@ -110,7 +110,7 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
     }
 
     Row(modifier = Modifier.padding(top = 8.dp)) {
-        Text(text = post.username ?: "", style = nexaCustomFont.body2)
+       // Text(text = post.username ?: "", style = nexaCustomFont.body2)
         Text(text = post.postDescription ?: "", modifier = Modifier.padding(start = 8.dp))
     }
     Row(modifier = Modifier.padding(8.dp)) {
