@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Tech Forum</string>
+    <string name="about_app1">Tech Forum is an app developed by a Wiproite for Wiproites to get instant help on their technical issues from the industry experts at Wipro.</string>
+    <string name="about_app2">Having any issues while working? not sure how to fix it? No worries 😊 take a snap and post it in Tech Forum by clicking on the + button in home screen.</string>
 </resources>

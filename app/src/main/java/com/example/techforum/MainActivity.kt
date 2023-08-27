@@ -64,6 +64,7 @@ sealed class DestinationScreen(val route: String) {
         fun createRoute(uri: String) = "newpost/$uri"
     }
     object SinglePost: DestinationScreen("singlepost")
+    object About: DestinationScreen("about")
     object CommentsScreen: DestinationScreen("comments/{postId}") {
         fun createRoute(postId: String) = "comments/$postId"
     }
@@ -94,6 +95,9 @@ fun TechForumApp(){
         }
         composable(DestinationScreen.Profile.route) {
             ProfileScreen(navController = navController, vm = vm)
+        }
+        composable(DestinationScreen.About.route) {
+            AboutScreen(navController = navController, vm = vm)
         }
         composable(DestinationScreen.NewPost.route) { navBackStachEntry ->
             val imageUri = navBackStachEntry.arguments?.getString("imageUri")

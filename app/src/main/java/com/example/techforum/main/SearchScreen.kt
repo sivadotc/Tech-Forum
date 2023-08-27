@@ -22,6 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.techforum.DestinationScreen
+import com.example.techforum.ui.theme.Blue
 
 
 @Composable
@@ -94,7 +95,8 @@ fun SearchBar(searchTerm: String, onSearchChange: (String) -> Unit, onSearch: ()
                 backgroundColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
+                disabledIndicatorColor = Color.Transparent,
+                cursorColor = Blue
             ),
             trailingIcon = {
                 IconButton(onClick = {
