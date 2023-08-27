@@ -2,17 +2,12 @@ package com.example.techforum.main
 
 import android.os.Parcelable
 import android.widget.Toast
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -53,7 +48,7 @@ fun CommonProgressSpinner() {
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ){
-       // CircularProgressIndicator()
+
         LottieAnimation(aniUrl = "https://lottie.host/ebb2335b-4844-4527-a5e4-5e73f3a0e916/Jxig2ZTpoZ.json")
 
     }

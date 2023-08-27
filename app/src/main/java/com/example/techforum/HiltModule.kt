@@ -11,7 +11,6 @@ import com.google.firebase.storage.ktx.storage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.HiltAndroidApp
 import dagger.hilt.android.components.ViewModelComponent
 
 @Module

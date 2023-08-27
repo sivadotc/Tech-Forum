@@ -3,9 +3,7 @@ package com.example.techforum.main
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.AnimatedContentScope.SlideDirection.Companion.End
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -14,8 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BottomSheetScaffold
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.FloatingActionButton
@@ -24,21 +20,14 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -48,9 +37,6 @@ import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
 import com.example.techforum.ui.theme.Blue
 import com.example.techforum.ui.theme.nexaCustomFont
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -118,7 +104,7 @@ fun FeedScreen(navController: NavController, vm: TfViewModel) {
                             contentDescription = null
                         )
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_info1),
+                            painter = painterResource(id = R.drawable.ic_info),
                             contentDescription = null,
                             modifier = Modifier
                                 .size(35.dp)
@@ -183,9 +169,6 @@ fun PostsList(
 
 @Composable
 fun Post(post: PostData, currentUserId: String, vm: TfViewModel, onPostClick: () -> Unit) {
-
-    //val likeAnimation = remember { mutableStateOf(false) }
-    //val dislikeAnimation = remember { mutableStateOf(false) }
 
     Card(
         shape = RoundedCornerShape(corner = CornerSize(10.dp)),

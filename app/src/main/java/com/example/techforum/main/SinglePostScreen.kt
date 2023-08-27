@@ -1,25 +1,21 @@
 package com.example.techforum.main
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.fontResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import coil.compose.rememberImagePainter
 import com.example.techforum.DestinationScreen
 import com.example.techforum.TfViewModel
 import com.example.techforum.data.PostData
@@ -36,9 +32,9 @@ fun SinglePostScreen(navController: NavController, vm: TfViewModel, post: PostDa
         vm.getComments(post.postId)
     }
 
-    post.userId?.let { 
+    post.userId?.let {
         Column(
-            modifier = androidx.compose.ui.Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(8.dp)
@@ -47,12 +43,19 @@ fun SinglePostScreen(navController: NavController, vm: TfViewModel, post: PostDa
             Text(text = "Back", modifier = Modifier.clickable { navController.popBackStack() })
 
             CommonDivider()
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
 
-            SinglePostDisplay(
-                navController = navController,
-                vm = vm, post = post,
-                nbComments = comments.size
-            )
+            ) {
+                SinglePostDisplay(
+                    navController = navController,
+                    vm = vm, post = post,
+                    nbComments = comments.size
+                )
+            }
+
 
         }
     }
@@ -110,7 +113,6 @@ fun SinglePostDisplay(navController: NavController, vm: TfViewModel, post: PostD
     }
 
     Row(modifier = Modifier.padding(top = 8.dp)) {
-       // Text(text = post.username ?: "", style = nexaCustomFont.body2)
         Text(text = post.postDescription ?: "", modifier = Modifier.padding(start = 8.dp))
     }
     Row(modifier = Modifier.padding(8.dp)) {

@@ -4,31 +4,23 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusEvent
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.techforum.CustomButton
 import com.example.techforum.CustomOutlinedButton
@@ -72,17 +64,8 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                 contentDescription = null,
                 Modifier.size(150.dp)
             )
-           // Spacer(modifier = Modifier.height(10.dp))
             LottieAnimation(aniUrl = "https://lottie.host/5fd63085-d089-4046-b251-442988b1ed0e/qNTiUbxGiP.lottie")
-           /* Text(
-                text = "Login",
-                style = Typography.h1,
-                modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
-                fontSize = 30.sp,
-            ) */
             Spacer(modifier = Modifier.height(30.dp))
-           // CustomTextField(value = emailState.value, onValueChange = { emailState.value = it }, label = "Email", icon = R.drawable.ic_mail)
-           // CustomTextField(value = passState.value, onValueChange = { passState.value = it }, label = "Password", icon = R.drawable.ic_lock, visualTransformation = PasswordVisualTransformation())
             OutlinedTextField(
                 value = emailState.value,
                 onValueChange = { emailState.value = it },
@@ -101,8 +84,8 @@ fun LoginScreen(navController: NavController, vm: TfViewModel) {
                     focusedLabelColor = Blue
                 ),
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Done, // Customize the IME action if needed
-                    keyboardType = KeyboardType.Email // Use the email keyboard type
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Email
                 )
             )
             OutlinedTextField(

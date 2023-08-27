@@ -9,7 +9,6 @@ import com.example.techforum.data.CommentData
 import com.example.techforum.data.Event
 import com.example.techforum.data.PostData
 import com.example.techforum.data.UserData
-import com.example.techforum.main.navigateTo
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore

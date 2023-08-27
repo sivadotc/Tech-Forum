@@ -6,7 +6,6 @@ import androidx.compose.foundation.relocation.BringIntoViewRequester
 import androidx.compose.foundation.relocation.bringIntoViewRequester
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -64,10 +63,6 @@ fun SignupScreen(navController: NavController, vm: TfViewModel){
             val passState = remember { mutableStateOf(TextFieldValue()) }
             
             SignupAnimation(aniUrl = "https://lottie.host/24c71afa-ebcb-41a6-8f2c-82dcf6cb6fdc/5XtWSAAPHz.lottie")
-            /* Text(
-                text = "Signup", style = Typography.h1,
-                modifier = Modifier.padding(top = 0.dp, bottom = 8.dp)
-            ) */
             OutlinedTextField(
                 value = usernameState.value,
                 onValueChange = { usernameState.value = it },
